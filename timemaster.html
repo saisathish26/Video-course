@@ -411,15 +411,16 @@ SCENES.push({ label:'Pomodoro', dur:12000, build(h) {
   // Title
   txt(h, '<span style="font-family:\'Fredoka One\',cursive;font-size:1.35rem;color:#1a3a6e;text-shadow:1px 2px 4px rgba(255,255,255,.8)">🍅 Pomodoro Technique</span>',
     'top:4%;left:0;right:0;text-align:center', 'popIn', 200);
-  // Tomato — top:14%, centered, 120×120
-  const tw = add(h, el('div', 'position:absolute;top:14%;left:50%;transform:translateX(-50%);z-index:20'));
+  // Tomato — top:14%, centered between stats (left ~16%) and right edge
+  const tw = add(h, el('div', 'position:absolute;top:14%;left:0;right:0;display:flex;justify-content:center;z-index:20'));
   tw.style.animation = 'popIn .55s .4s both';
-  const tb = add(tw, el('div', 'width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff5252,#c62828);box-shadow:0 8px 28px rgba(0,0,0,.3),inset 0 -4px 10px rgba(0,0,0,.2);position:relative;overflow:hidden'));
+  const tInner = add(tw, el('div', 'position:relative;width:120px;height:120px;flex-shrink:0'));
+  const tb = add(tInner, el('div', 'width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff5252,#c62828);box-shadow:0 8px 28px rgba(0,0,0,.3),inset 0 -4px 10px rgba(0,0,0,.2);position:relative;overflow:hidden'));
   add(tb, el('div', 'position:absolute;top:10%;left:16%;width:26%;height:16%;background:rgba(255,255,255,.22);border-radius:50%;transform:rotate(-30deg)'));
   const tn = add(tb, el('div', 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center'));
   tn.innerHTML = '<div id="pomoNum" style="font-family:\'Fredoka One\',cursive;font-size:2rem;color:#1a3a6e;line-height:1">25:00</div><div style="font-family:Nunito;font-size:.52rem;color:#3a5a7a;font-weight:800">FOCUS TIME</div>';
-  add(tw, el('div', 'position:absolute;top:-11px;left:50%;transform:translateX(-50%);width:8px;height:14px;background:#2e7d32;border-radius:4px'));
-  add(tw, el('div', 'position:absolute;top:-9px;left:56%;width:14px;height:7px;background:#388e3c;border-radius:50% 50% 0 0;transform:rotate(32deg)'));
+  add(tInner, el('div', 'position:absolute;top:-11px;left:50%;transform:translateX(-50%);width:8px;height:14px;background:#2e7d32;border-radius:4px'));
+  add(tInner, el('div', 'position:absolute;top:-9px;left:56%;width:14px;height:7px;background:#388e3c;border-radius:50% 50% 0 0;transform:rotate(32deg)'));
   // Stats — left:3%, top:17%, width:13%
   const stats = add(h, el('div', 'position:absolute;top:17%;left:3%;width:13%;z-index:20'));
   stats.style.animation = 'fadeLeft .5s 1200ms both';
@@ -563,13 +564,13 @@ SCENES.push({ label:'Summary', dur:14000, build(h) {
   // Each card: width ~18.4%, top:13%, height:52% — leaves bottom 35% for char+bar
   cardData.forEach((q, idx) => {
     const left = 0.8 + idx * 19.6;
-    const box = add(h, el('div', `position:absolute;top:13%;left:${left}%;width:18.4%;height:55%;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.45rem .35rem;background:linear-gradient(175deg,${q.c}f0,${q.c}70);border:1.5px solid rgba(255,255,255,.22);border-radius:13px;box-shadow:0 5px 18px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.1)`));
+    const box = add(h, el('div', `position:absolute;top:13%;left:${left}%;width:18.4%;height:55%;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.7rem .45rem;background:linear-gradient(175deg,${q.c}f0,${q.c}70);border:1.5px solid rgba(255,255,255,.22);border-radius:13px;box-shadow:0 5px 18px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.1)`));
     box.style.animation = `popIn .52s ${q.delay}ms both`;
     box.innerHTML =
-      `<div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:.28rem;flex-shrink:0">${q.e}</div>` +
-      `<div style="font-family:'Fredoka One',cursive;font-size:.68rem;color:#fff;line-height:1.2;margin-bottom:.15rem">${q.n}</div>` +
-      `<div style="width:24px;height:2px;background:rgba(255,255,255,.38);border-radius:2px;margin-bottom:.15rem;flex-shrink:0"></div>` +
-      `<div style="font-size:.48rem;color:rgba(255,255,255,.88);font-weight:700;line-height:1.45">${q.d}</div>`;
+      `<div style="width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.18);border:2.5px solid rgba(255,255,255,.38);display:flex;align-items:center;justify-content:center;font-size:1.9rem;margin-bottom:.55rem;flex-shrink:0">${q.e}</div>` +
+      `<div style="font-family:'Fredoka One',cursive;font-size:.88rem;color:#fff;line-height:1.25;margin-bottom:.3rem">${q.n}</div>` +
+      `<div style="width:36px;height:2.5px;background:rgba(255,255,255,.45);border-radius:2px;margin-bottom:.3rem;flex-shrink:0"></div>` +
+      `<div style="font-size:.62rem;color:rgba(255,255,255,.92);font-weight:700;line-height:1.5">${q.d}</div>`;
   });
 
   // Character — bottom-right, normal size (no scaling)
